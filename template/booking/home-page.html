@@ -1,0 +1,21 @@
+{% include 'booking/sections/header.html' %}
+{% load static %}
+<title>Luaa | Home</title>
+
+</head>
+<body>
+    {% include 'booking/sections/nav-bar.html' %}
+
+    {% if messages %}
+        <div class="alerts-list absolute right-0 mr-4">
+            {% for message in messages %}
+                <div onclick="this.style.display='none';" class="p-2 bg-blue-200 text-blue-800 cursor-pointer p-4 text-sm rounded border border-blue-300 my-3">
+                    {{message}}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+
+    {% include 'booking/sections/footer.html' %}
