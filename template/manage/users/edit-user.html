@@ -91,8 +91,8 @@
                             <div>
                                 <label class="block text-white dark:text-gray-200" for="profile_active">Profile Active : {% if user_details.profile_active %} <b>Active</b> {% else %} <b>Not Active</b> {% endif%}
                                 </label>
-                                <input id="profile_active" type="checkbox" name="profile_active" required {% if user_details.profile_active %} checked {% endif%}
-                                    class="w-5 h-5 mx-3 my-4 bg-purple-200">
+                                <input id="profile_active" type="checkbox" name="profile_active" {% if user_details.profile_active %} checked {% endif%}
+                                  value="1"  class="w-5 h-5 mx-3 my-4 bg-purple-200">
                                     <span class="text-blue-300">Unchecking this will <b>Deactivate</b> the Account</span>
                             </div>
                             
@@ -110,8 +110,8 @@
 
                         <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                             <div>
-                                <label class="text-gray-700 dark:text-gray-200" for="total_seats">Email</label>
-                                <input id="email" type="email" name="total_seats" required value="{{user_details.user.email}}"
+                                <label class="text-gray-700 dark:text-gray-200" for="email">Email</label>
+                                <input id="email" type="email" name="email" required value="{{user_details.user.email}}"
                                     class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
                             </div>
 
@@ -165,7 +165,7 @@
                         <br>
                         <hr>
                         <br>
-                        <input type="checkbox" name="declaration" id="declaration" class="w-4 h-4" required> <label class="mx-3" for="declaration">Change the details for this user. Old data can not be recovered.</label>
+                        <input type="checkbox" name="declaration" value="1" id="declaration" class="w-4 h-4" required> <label class="mx-3 cursor-pointer" for="declaration">Change the details for this user. Old data can not be recovered.</label>
 
 
                     </section>

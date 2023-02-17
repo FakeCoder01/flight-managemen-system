@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login, logout, authenticate
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib import messages
 
 from django.shortcuts import redirect, render
@@ -273,14 +273,26 @@ def all_tickets(request):
 @login_required(login_url='/manage/login')    
 @staff_member_required(login_url='/manage/login')
 def ticket_details(request, ticket_id):
-    pass
-
+    if Booking.objects.filter(uid=ticket_id).exists():
+        context = {
+            "ticket_details" : Booking.objects.get(uid=ticket_id)
+        }
+        return render(request, 'manage/tickets/ticket-details.html', context)
+    return HttpResponseNotFound()
 
 ### Edit a ticket
 @login_required(login_url='/manage/login')    
 @staff_member_required(login_url='/manage/login')
 def edit_ticket(request, ticket_id):
-    pass
+    if Booking.objects.filter(uid=ticket_id).exists():
+        ticket = Booking.objects.get(uid=ticket_id)
+        context = {
+            "ticket_details" : ticket
+        }
+        if request.method == 'POST':
+            pass
+        return render(request, 'manage/tickets/edit-ticket.html', context)
+    return HttpResponseNotFound()
 
 
 ### All users
@@ -302,21 +314,110 @@ def user_details(request, userid):
             "user_details" : Profile.objects.get(uid=userid)
         }
         return render(request, 'manage/users/user-details.html', context)
-
+    return HttpResponseNotFound()
 
 
 ### Edit a user
 @login_required(login_url='/manage/login')    
 @staff_member_required(login_url='/manage/login')
 def edit_user(request, userid):
-        if Profile.objects.filter(uid=userid).exists():
-            if request.method == 'POST':
-                pass
-            context = {
-                "user_details" : Profile.objects.get(uid=userid)
-            }
-        return render(request, 'manage/users/edit-user.html', context)
+    if Profile.objects.filter(uid=userid).exists():
+        profile = Profile.objects.get(uid=userid)
+        context = {
+            "user_details" : profile
+        }
+        if request.method == 'POST':
+            try:
+                # personal information
+                first_name = request.POST['first_name']
+                last_name = request.POST['last_name']
+                gender = request.POST['gender']
+                citizenship = request.POST['citizenship']
+                passport_number = request.POST['passport_number']
+                profile_active = False
+                if 'profile_active' in request.POST and request.POST['profile_active'] == '1':
+                    profile_active = True
+                # contact information
+                mobile_number = request.POST['mobile_number']
+                email = str(request.POST['email']).replace(' ', '')
 
+                # account information
+                username = str(request.POST['username']).replace(' ', '')
+                form_userid = request.POST['userid']
+                password = request.POST['password']
+                confirm_password = request.POST['confirm_password']
+
+
+                full_name = first_name + " " + last_name
+                user = profile.user
+                    
+
+                if 'declaration' in request.POST and request.POST['declaration'] == '1':
+
+                    if username != user.username and User.objects.filter(username=username).exists():
+                        messages.error(request, "Username already taken")
+                        return redirect(f'/manage/users/{userid}/change?res=username-taken')
+                    else:
+                        user.username = username
+                        messages.success(request, "Username updated")
+
+                    if email != user.email and User.objects.filter(email=email).exists():
+                        messages.error(request, "Email already taken")
+                        return redirect(f'/manage/users/{userid}/change?res=email-taken') 
+                    else:
+                        user.email = email
+                        messages.success(request, "Email updated")
+
+                    if password == '' or password == ' ':
+                       pass 
+                    elif password == confirm_password:
+                        user.set_password(password)
+                        messages.success(request, "Password changed")
+                    else:
+                        messages.error(request, " Password did not match")
+                        return redirect(f'/manage/users/{userid}/change?res=password-mismatch') 
+
+                    if user.first_name != first_name:
+                        user.first_name = first_name
+                        messages.success(request, "Name updated")
+
+                    if user.last_name != last_name:
+                        user.last_name = last_name
+                        messages.success(request, "Name updated")
+
+                    profile.full_name = full_name
+
+                    if profile.gender != gender:
+                        profile.gender = gender
+                        messages.success(request, "Gender updated")
+
+                    if profile.passport_number != str(passport_number).upper():
+                        profile.passport_number = str(passport_number).upper()
+                        messages.success(request, "Passport number updated")
+
+                    if profile.citizenship != str(citizenship).upper():
+                        profile.citizenship = str(citizenship).upper()
+                        messages.success(request, "Citizenship updated")
+
+                    if profile.mobile_number != mobile_number:
+                        profile.mobile_number = mobile_number
+                        messages.success(request, "Mobile number updated")
+
+                    if profile.profile_active != profile_active:
+                        profile.profile_active = profile_active
+                        messages.success(request, "Profile status updated")
+
+                    profile.save()
+                    user.save()    
+                    messages.success(request, "Profile updated")    
+                    return redirect(f"/manage/users/{userid}/change?res=True")
+                return redirect(f"/manage/users/{userid}/change?res=not-declared")    
+            except Exception as err:
+                print(err) 
+                messages.error(request, "Something went wrong")
+                return redirect(f"/manage/users/{userid}/change?res=err") 
+        return render(request, 'manage/users/edit-user.html', context)
+    return redirect('/manage/users/?res=userid-invalid')
 
 
 
