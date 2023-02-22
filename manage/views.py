@@ -351,6 +351,7 @@ def edit_user(request, userid):
                 full_name = first_name + " " + last_name
                 user = profile.user
                     
+                # declaration : consiousness check
 
                 if 'declaration' in request.POST and request.POST['declaration'] == '1':
 

@@ -1,0 +1,6 @@
+django
+requests
+razorpay
+daphne
+django-rest-framework
+django-channels

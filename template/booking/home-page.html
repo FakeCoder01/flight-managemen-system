@@ -17,5 +17,14 @@
     {% endif %}
 
 
+    <div style="display: block; margin: auto;"> 
+        {% for x in flights %}
+            <div class="px-4 py-3 m-4 text-3xl font-semibold text-red-800 w-1/5 bg-yellow-200 rounded border-blue-300 border-4 underline">
+                <a href="/flight/{{x.uid}}">{{x}}</a>
+               
+            </div>
+        {% endfor %}
+    </div>
+
 
     {% include 'booking/sections/footer.html' %}

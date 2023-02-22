@@ -27,4 +27,6 @@ urlpatterns = [
 
     path('payments/', views.payments, name="payments"),
     path('payments/<str:payment_id>/', views.invoice_payment, name="invoice_payment"),
+
+    path('paymenthandler/flight/', views.payment_handler, name="payment_handler"),
 ]

@@ -1,16 +1,19 @@
 from django.shortcuts import render
-from rest_framework.views import APIView
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import *
-from requests import session
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from .serializers import FlightBookingSerializer
 from django.contrib import messages
-
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
+
+razorpay_client = razorpay.Client(
+	auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
 def search_flight(request):
     context = {
@@ -30,6 +33,8 @@ def login_user(request):
             login(request, user)
             messages.success(request, "Login successful")
             if Profile.objects.filter(user=request.user, profile_active=True).exists():
+                if 'next' in request.GET:
+                    return redirect(f"{request.GET['next']}")
                 return redirect('/')
             return redirect(f'/profile?perform=new')
         messages.error(request, "Invalid credentials")        
@@ -261,71 +266,52 @@ def invoice_payment(request, payment_id):
 
 
 
-
-
-
-
-
-
-
-
-
-
+### payment also
 @login_required(login_url="/login")
 def book_flight(request, flight_id, booking_id):
     if Flight.objects.filter(uid=flight_id).exists() and Booking.objects.filter(uid=booking_id, flight=Flight.objects.get(uid=flight_id), profile=request.user.userprofile).exists():
         booking = Booking.objects.get(uid=booking_id)
-        flight = Flight.objects.get(uid=flight_id)    
+        flight = Flight.objects.get(uid=flight_id) 
+        amount = booking.fare_amount * 100
+        razorpay_order = razorpay_client.order.create(
+            dict(
+                amount=amount,
+			    currency='INR',
+			    payment_capture='0'
+            )
+        )
+        razorpay_order_id = razorpay_order['id']
+
+        new_payment = Payment.objects.create(
+            payment_id = razorpay_order_id,
+            profile = request.user.userprofile,
+            booking = booking,
+            flight = flight,
+            amount = amount,
+        )
+        
+        callback_url = '/paymenthandler/flight/'
+
+        # context = {}
+        # context['razorpay_order_id'] = razorpay_order_id
+        # context['razorpay_merchant_key'] = settings.RAZOR_KEY_ID
+        # context['razorpay_amount'] = amount
+        # context['currency'] = 'INR'
+        # context['callback_url'] = callback_url
+
+
         context = {
-            "page_title": 'Payment | ' + flight.origin_airport.iata_code + ' to ' + flight.destination_airport.iata_code + ' (' + flight.flight_number +')', 
-            "flight" : flight,
-            "booking" : booking
+            'razorpay_order_id' : razorpay_order_id,
+            'razorpay_merchant_key' : settings.RAZOR_KEY_ID,
+            'razorpay_amount' : amount,
+            'currency' : 'INR',
+            'callback_url' : callback_url,
+            'page_title' : 'Payment | ' + flight.origin_airport.iata_code + ' to ' + flight.destination_airport.iata_code + ' (' + flight.flight_number +')', 
+            'flight' : flight,
+            'booking' : booking
         }
         return render(request, "booking/flights/payment.html", context)
     return Http404()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -371,6 +357,42 @@ def privacy_security(request):
 
 
 def homepage(request):
-    return render(request, "booking/home-page.html")
+    context = {
+        "flights" : Flight.objects.all()[:16]
+    }
+    return render(request, "booking/home-page.html", context)
 
+@csrf_exempt
+def payment_handler(request):
+    if request.method == "POST":
+        try:
+			# get the required parameters from post request.
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
+            params_dict = {
+				'razorpay_order_id': razorpay_order_id,
+				'razorpay_payment_id': payment_id,
+				'razorpay_signature': signature
+			}
 
+			# verify the payment signature.
+            result = razorpay_client.utility.verify_payment_signature(params_dict)
+            if result is not None and Payment.objects.filter(payment_id=payment_id).exists():
+                payment = Payment.objects.get(payment_id=payment_id)
+                amount = payment.amount # Rs. 200
+
+                try:
+
+					# capture the payemt
+                    razorpay_client.payment.capture(payment_id, amount)
+
+					# render success page on successful caputre of payment
+                    return render(request, 'booking/pay/paymentsuccess.html', {'payment' : payment, 'page_title' : 'Success'})
+                except Exception as err:
+                    print(err)
+				# if there is an error while capturing payment.
+            return render(request, 'booking/pay/paymentfail.html', {'page_title' : "Failure"})
+        except Exception as err:
+            print(err)
+    return HttpResponseBadRequest()

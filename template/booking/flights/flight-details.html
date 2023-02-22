@@ -60,98 +60,100 @@
             </ol>
         </div>
     </div>
-    <button onclick="flight_info_table_SHOW_HIDE();" style="width: 100px;" class="bg-red-400 px3 py-2 rounded">Flight Info</button>
-    <table id="flight_info_table" style="display: inline-block; margin: auto; max-width: 320px; overflow:scroll" class=" bg-black items-center">
-        <thead>
-            <th class="text-red-400">Flight information</th>
-        </thead>
-        <tbody class="bg-black">
-            <tr class="bg-black text-gray-700 dark:text-gray-100">
-                <th
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                    Flight Number</th>
-    
-                <td
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {{flight.flight_number}}</td>
-            </tr>
-
-            <tr class="text-gray-700 dark:text-gray-100">
-                <th
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                    Departure Airport</th>
-    
-                <td
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {{flight.origin_airport.iata_code}}, {{flight.origin_airport.airport_city}}
-                </td>
-            </tr>
-
-            <tr class="text-gray-700 dark:text-gray-100">
-                <th
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                    Departure Date Time
-                </th>
-    
-                <td
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {{flight.departure_date}} {{flight.departure_time}}
-                </td>
-            </tr>
-
-            <tr class="text-gray-700 dark:text-gray-100">
-                <th
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                    Arrival Airport
-                </th>
-    
-                <td
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {{flight.destination_airport.iata_code}}, {{flight.destination_airport.airport_city}}
-                </td>
-            </tr>
-
-            <tr class="text-gray-700 dark:text-gray-100">
-                <th
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                    Arrival Date Time
-                </th>
-    
-                <td
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {{flight.arrival_date}} {{flight.arrival_time}}
-                </td>
-            </tr>
-
-
-
-            <tr class="text-gray-700 dark:text-gray-100">
-                <th
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                    Airport Origin</th>
-    
-                <td
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {{flight.origin_airport.airport_name}}</td>
-            </tr>
-
-            <tr class="text-gray-700 dark:text-gray-100">
-                <th
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-                    Airport Destination</th>
-    
-                <td
-                    class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                    {{flight.destination_airport.airport_name}}</td>
-            </tr>
-
+    <button onclick="flight_info_table_SHOW_HIDE();" style="width: 100px; display: block;" class="m-4 bg-red-400 px3 py-2 rounded">Flight Info</button>
+    <div style="display: inline-block; width: 400px; max-width: 400px; overflow:scroll">
+        <table id="flight_info_table"  class="mx-4 bg-black w-full items-center">
+            <thead>
+                <th class="text-red-400">Flight information</th>
+            </thead>
+            <tbody class="bg-black">
+                    <tr class="bg-black text-gray-700 dark:text-gray-100">
+                        <th
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                            Flight Number</th>
             
-        </tbody>
-    </table>
+                        <td
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{flight.flight_number}}</td>
+                    </tr>
+        
+                    <tr class="text-gray-700 dark:text-gray-100">
+                        <th
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                            Departure Airport</th>
+            
+                        <td
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{flight.origin_airport.iata_code}}, {{flight.origin_airport.airport_city}}
+                        </td>
+                    </tr>
+        
+                    <tr class="text-gray-700 dark:text-gray-100">
+                        <th
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                            Departure Date Time
+                        </th>
+            
+                        <td
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{flight.departure_date}} {{flight.departure_time}}
+                        </td>
+                    </tr>
+        
+                    <tr class="text-gray-700 dark:text-gray-100">
+                        <th
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                            Arrival Airport
+                        </th>
+            
+                        <td
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{flight.destination_airport.iata_code}}, {{flight.destination_airport.airport_city}}
+                        </td>
+                    </tr>
+        
+                    <tr class="text-gray-700 dark:text-gray-100">
+                        <th
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                            Arrival Date Time
+                        </th>
+            
+                        <td
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{flight.arrival_date}} {{flight.arrival_time}}
+                        </td>
+                    </tr>
+        
+        
+        
+                    <tr class="text-gray-700 dark:text-gray-100">
+                        <th
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                            Airport Origin</th>
+            
+                        <td
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{flight.origin_airport.airport_name}}</td>
+                    </tr>
+        
+                    <tr class="text-gray-700 dark:text-gray-100">
+                        <th
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+                            Airport Destination</th>
+            
+                        <td
+                            class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                            {{flight.destination_airport.airport_name}}</td>
+                    </tr>
+        
+                    
+            </tbody>
+        </table>
+    </div>
     
 
 
-    <article style="display: inline-block;" class="ml-4 rounded-xl border border-gray-700 bg-gray-800 px-10 py-8 lg:w-3/5 w-full sm:mx-4 mx-4 lg:mx-0">
+    <article style="display: inline-block;" id="tckt-list" class="ml-4 rounded-xl border border-gray-700 bg-gray-800 px-10 py-8 lg:w-3/5 w-full sm:mx-4 mx-4 lg:mx-0">
         <div class="flex items-center">
 
 
@@ -168,9 +170,9 @@
 
             <ul class="mt-4 space-y-2 " style="display: block; margin: auto;">
 
-                <li class="block cursor-pointer ">
-                    <input type="radio" name="seat_class" id="economy_fare" value="economy_fare" required>
-                    <label for="economy_fare" class="inline-block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600">
+                <li class="block cursor-pointer input-seat-type-all">
+                    <input type="radio"  name="seat_class" id="economy_fare" value="economy_fare" required>
+                    <label for="economy_fare" class="booking-input-label inline-block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600">
                         <strong class="font-medium text-white">Economy Class</strong>
                         <strong class="font-medium text-green-400  float-right">Rs &nbsp;{{flight_info.pricing.economy}}</strong>
                         <p class="mt-1 text-xs font-medium text-gray-300">
@@ -179,9 +181,9 @@
                     </label>
                 </li>
 
-                <li class="block cursor-pointer">
-                    <input type="radio" name="seat_class" id="business_fare" value="business_fare" required>
-                    <label for="business_fare" class="inline-block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600">
+                <li class="block cursor-pointer input-seat-type-all">
+                    <input type="radio"  name="seat_class" id="business_fare" value="business_fare" required>
+                    <label for="business_fare" class="booking-input-label inline-block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600">
                         <strong class="font-medium text-white">Business Class</strong>
                         <strong class="font-medium text-green-400 float-right">Rs &nbsp;{{flight_info.pricing.business}}</strong>
                         <p class="mt-1 text-xs font-medium text-gray-300">
@@ -190,9 +192,9 @@
                     </label>
                 </li>
 
-                <li class="block curser-pointer ">
-                    <input type="radio" name="seat_class" id="first_fare" value="first_fare" required>
-                    <label for="first_fare" class="inline-block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600">
+                <li class="block curser-pointer input-seat-type-all">
+                    <input type="radio"  name="seat_class" id="first_fare" value="first_fare" required>
+                    <label for="first_fare" class="booking-input-label inline-block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600">
                         <strong class="font-medium text-white">First Class</strong>
                         <strong class="font-medium text-green-400 float-right">Rs &nbsp;{{flight_info.pricing.first}}</strong>
                         <p class="mt-1 text-xs font-medium text-gray-300">
@@ -216,14 +218,24 @@
 
  <script>
     function flight_info_table_SHOW_HIDE(){
-        return;
-        const table = document.getElementById("flight_info_table");
-        if(table.style.display == 'inline-block'){
-            table.style.display = 'none';
+        
+        const tableDiv = document.getElementById("flight_info_table");
+        if(tableDiv.hidden === false){
+            tableDiv.hidden = true;
+            tableDiv.style.overflowX = 'none';
         }else{
-            table.style.display = 'inline-block';
+            tableDiv.hidden = false;
+            tableDiv.style.overflowX = 'scroll';
         }
     }
+    
+    // const allLabels = document.querySelectorAll(".input-seat-type-all");
+    // document.querySelectorAll(".booking-input-label").onclick.forEach(label => 
+    //     label.onclick = function() {
+    //         console.log("in onclick");
+    //         console.log(this.id);
+    //     }
+    // )
  </script>
 
 

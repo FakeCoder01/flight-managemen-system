@@ -4,6 +4,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
 </style>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 
 <body>
@@ -294,7 +295,7 @@
                 </div>
 
 
-                <button onclick="PaymentHandlerBooking();"
+                <button id="flight-payment-button"
                     class="px-4 py-4 bg-red-600 text-white w-full mt-3 rounded shadow font-bold hover:bg-red-700">
                     Pay {{booking.fare_amount}}</button>
             </div>
@@ -303,9 +304,19 @@
     </div>
 
     <script>
-        function PaymentHandlerBooking(){
-            return true;
-        }
+        const options = {
+            key: "{{ razorpay_merchant_key }}",
+            amount: "{{ razorpay_amount }}",
+            currency: "{{ currency }}",
+            name: "Luua",
+            order_id: "{{ razorpay_order_id }}",
+            callback_url: "{{ callback_url }}",
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById("flight-payment-button").onclick = function (e) {
+            rzp1.open();
+            e.preventDefault();
+        };
     </script>
 
 
