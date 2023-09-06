@@ -18,5 +18,3 @@ class AirportListSerializer(serializers.Serializer):
     airport_country = serializers.CharField(max_length=16)
     iata_code = serializers.CharField(max_length=3)
     icao_code = serializers.CharField(max_length=4)
-
-    

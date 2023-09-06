@@ -127,7 +127,7 @@
                                     </thead>
                                     <tbody>
                                         {% for x in last_five_flights_details %}
-                                        <tr class="text-gray-700 dark:text-gray-100 cursor-pointer cursor-pointer hover:bg-red-400 hover:bg-opacity-5">
+                                        <tr class="text-gray-700 dark:text-gray-100 cursor-pointer cursor-pointer hover:bg-red-400 hover:bg-opacity-5" onclick="window.location.href='/manage/flights/{{x.uid}}/'">
                                             <th
                                                 class="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
                                                 {{x.flight_number}}</th>
@@ -243,30 +243,33 @@
                                     
                                     {% for x in last_five_bookings %}
 
-                                    <tr class="bg-gray-50 cursor-pointer dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
-                                        <td class="px-4 py-3">
-                                            <div class="flex items-center text-sm">
-                                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                                    <img class="object-cover w-full h-full rounded-full"
-                                                        src="{% static '/images/logo/logo-icon.png' %}"
-                                                        alt="" loading="lazy" />
-                                                    <div class="absolute inset-0 rounded-full shadow-inner"
-                                                        aria-hidden="true"></div>
+                                    <tr class="bg-gray-50 cursor-pointer dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400" onclick="window.location.href='/manage/tickets/{{x.uid}}/'">
+                                        
+                                         
+                                            <td class="px-4 py-3">
+                                                <div class="flex items-center text-sm">
+                                                    <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+                                                        <img class="object-cover w-full h-full rounded-full"
+                                                            src="{% static '/images/logo/logo-icon.png' %}"
+                                                            alt="" loading="lazy" />
+                                                        <div class="absolute inset-0 rounded-full shadow-inner"
+                                                            aria-hidden="true"></div>
+                                                    </div>
+                                                    <div>
+                                                        <p class="font-semibold">{{x.person_name}}</p>
+                                                        <p class="text-xs text-gray-600 dark:text-gray-400">{{x.profile}}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <p class="font-semibold">{{x.person_name}}</p>
-                                                    <p class="text-xs text-gray-600 dark:text-gray-400">{{x.profile}}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-3 text-sm">{{x.pnr_code}}</td>
-                                        <td class="px-4 py-3 text-xs">
-                                            <span
-                                                class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                                {{x.flight}} </span>
-                                        </td>
-                                        <td class="px-4 py-3 text-sm">{{x.seat_type}}</td>
+                                            </td>
+                                            <td class="px-4 py-3 text-sm">{{x.pnr_code}}</td>
+                                            <td class="px-4 py-3 text-xs">
+                                                <span
+                                                    class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                    {{x.flight}} </span>
+                                            </td>
+                                            <td class="px-4 py-3 text-sm">{{x.seat_type}}</td>
+                                        
                                     </tr>
 
 
@@ -292,12 +295,12 @@
                             </h1>
                             <p class="text-normal text-lg sm:text-2xl font-medium text-gray-600 dark:text-gray-400 mt-2">
                                 Fill in the form to send an email</p>
-                            <p class="text-normal  sm:text-xl font-normal text-red-600 dark:text-red-400 mt-2" >
+                            <p class="text-normal  sm:text-xl font-normal text-info-600 dark:text-info-400 mt-2" >
                                 Use commma to separate Email addresses to send email to multiple people at once
                             </p>
 
                         </div>
-                        <form class="p-6 flex flex-col justify-center">
+                        <div class="p-6 flex flex-col justify-center">
                             <div class="flex flex-col">
                                 <label for="name" class="hidden">Subject</label>
                                 <input type="text" name="subject" id="subject" placeholder="Subject"
@@ -306,23 +309,20 @@
 
                             <div class="flex flex-col mt-2">
                                 <label for="email" class="hidden">Email</label>
-                                <input type="email" name="email" id="email" placeholder="Email"
+                                <input type="text" name="email" id="email" placeholder="Email"
                                     class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" />
                             </div>
 
                             <div class="flex flex-col mt-2">
                                 <label for="message" class="hidden">Message</label>
                                 <textarea id="message" name="message" placeholder="Type Message"
-                                    class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" >
-                                </textarea>
-                                <script>
-                                    document.getElementById("message").value = '';
-                                </script>
+                                    class="w-100 mt-2 py-3 px-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-400 dark:border-gray-700 text-gray-800 dark:text-gray-50 font-semibold focus:border-blue-500 focus:outline-none" ></textarea>
+                 
                             </div>
-
-                            <button type="submit"
+                            {% csrf_token %}
+                            <button type="submit" onclick="sendEmailToUser('comma')"
                                 class="md:w-32 bg-blue-600 dark:bg-gray-100 text-white dark:text-gray-800 font-bold py-3 px-6 rounded-lg mt-4 hover:bg-blue-500 dark:hover:bg-gray-200 transition ease-in-out duration-300">Send</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <!-- ./Send Email -->
@@ -331,6 +331,39 @@
             </div>
         </div>
     </div>
+    <script>
+        async function sendEmailToUser(emailSentKey){
+
+            const subject = document.getElementById("subject").value ;
+            const email_list = document.getElementById("email").value ;
+            const message = document.getElementById("message").value ;
+            if(subject == undefined || subject == '' || subject == null) return;
+            if(email_list == undefined || email_list == '' || email_list == null) return;
+            if(message == undefined || message == '' || message == null) return;
+
+            const formData = new FormData();
+            formData.append("subject", subject);
+            formData.append("email_list", email_list);
+            formData.append("message", message);
+            formData.append("csrfmiddlewaretoken", document.getElementsByName("csrfmiddlewaretoken")[0].value);
+            
+            const response = await fetch("/api/email/many/", {
+                method : 'POST',
+                headers : {
+                    // "Content-Type" : "application/json",
+                    "X-CSRFToken" : document.getElementsByName("csrfmiddlewaretoken")[0].value
+                },
+                body : formData
+            });
+            const result = await response.json();
+            const data = JSON.parse(result);
+            if(data.status_code === 202){
+                alert(data.message);
+            }else{
+                alert(data.message);
+            }
+        }
+    </script>
 
     {% include 'manage/sections/footer.html' %}
 

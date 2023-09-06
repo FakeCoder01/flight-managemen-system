@@ -1,7 +1,7 @@
-
 from django.urls import path, include
 from . import views
 from . import chat
+from .search import global_search
 urlpatterns = [
     path('', views.homePage, name='homepage'),
 
@@ -17,8 +17,8 @@ urlpatterns = [
     path('flights/<str:flight_id>/bookings/', views.flight_tickets, name="flight_tickets"),
 
     path('tickets/', views.all_tickets, name="all_tickets"),
-    path('tickets/<ticket_id>/', views.ticket_details, name="ticket_details"),
-    path('tickets/<str:ticket_id>/change/', views.edit_ticket, name="edit_ticket"),
+    path('tickets/<str:booking_id>/', views.ticket_details, name="ticket_details"),
+    path('tickets/<str:booking_id>/change/', views.edit_ticket, name="edit_ticket"),
 
     path('users/', views.all_users, name="all_users"), #
     path('users/<str:userid>/', views.user_details, name="user_details"),
@@ -36,5 +36,7 @@ urlpatterns = [
 
     
     path('payments/', views.all_payments, name="all_payments"),
+
+    path('search/', global_search, name="search"),
 
 ]

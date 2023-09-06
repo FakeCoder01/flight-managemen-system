@@ -1,5 +1,5 @@
 from django.db import models
-import uuid, datetime
+import uuid
 from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
 from datetime import datetime as DateTime
@@ -211,7 +211,7 @@ class Booking(BaseModel):
 
 class Payment(models.Model):
     
-    payment_id = models.CharField(default=get_random_string(10), unique=True, max_length=10)
+    payment_id = models.CharField(default=get_random_string(10), unique=True, max_length=32)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="payment_user")
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="payment_booking")
     flight = models.ForeignKey(Flight, models.CASCADE, related_name="payment_flight")

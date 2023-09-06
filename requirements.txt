@@ -4,3 +4,10 @@ razorpay
 daphne
 django-rest-framework
 django-channels
+django-cors-headers
+python-dotenv
+psycopg2
+celery
+redis
+django-celery
+reportlab

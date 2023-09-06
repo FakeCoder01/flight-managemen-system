@@ -91,9 +91,9 @@
     <script type="text/javascript">
         const client_type = "m";
         document.getElementById("siview").scrollIntoView();
-        let url = `ws://${window.location.host}/ws/socket-server/chat/?group={{profile_id}}`
+        let w_url = `ws://${window.location.host}/ws/socket-server/chat/?group={{profile_id}}`
 
-        const chatSocket = new WebSocket(url)
+        const chatSocket = new WebSocket(w_url);
 
         chatSocket.onmessage = function (e) {
             let data = JSON.parse(e.data)
@@ -135,60 +135,21 @@
                 }
             }
         }
-
-        let form = document.getElementById('form')
+        
+        let form = document.getElementById('form');
         form.addEventListener('submit', (e) => {
-            e.preventDefault()
+            e.preventDefault();
             let message = e.target.message.value
             chatSocket.send(JSON.stringify({
                 'message': message,
                 'chat_group_id': "{{profile_id}}",
                 'sender': "manager"
-            }))
-            form.reset()
-        })
+            }));
+            form.reset();
+        });
+        
 
     </script>
-
     {% include 'manage/sections/footer.html' %}
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
