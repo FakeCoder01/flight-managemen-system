@@ -2,7 +2,8 @@
 
 # Flight Management System
 
-|<a href="#run-the-project">Installation & Run</a>|<a href="#demo-and-screenshots">Demo & Screenshots </a>|
+| <a href="#run-the-project">Installation & Run</a> | <a href="#demo-and-screenshots">Demo & Screenshots </a> |
+| :-------- | :-------------------------------- |
 
 ##### Live Demo : <a href="https://luaafms.pythonanywhere.com/">https://luaafms.pythonanywhere.com</a>
 
