@@ -77,11 +77,13 @@ python manage.py runserver
 ## Demo and Screenshots
 
 ### Airline App Demo
+
+<video src="demo/airline-app-demo.mp4"></video>
 ![Airline Demo](demo/airline-app-demo.mp4)
 
 
 ### User App Demo
-![User Demo](demo/images/user-app-demo.mp4)
+![User Demo](demo/user-app-demo.mp4)
 
 
 Telegram : <a href="https://t.me/hitkolkata" title="Telegram ID">@hitkolkata</a>
