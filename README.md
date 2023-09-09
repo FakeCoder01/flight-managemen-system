@@ -82,6 +82,8 @@ python manage.py runserver
 ![Airline Demo](demo/airline-app-demo.mp4)
 
 
+demo/airline-app-demo.mp4
+
 ### User App Demo
 ![User Demo](demo/user-app-demo.mp4)
 
