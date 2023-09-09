@@ -12,13 +12,13 @@
 
 1. Install python dependencies
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
 2. Create a `.env` file in the root directory and paste the following:
 
-```
+```python
 # Payment Gateway Config
 export RAZOR_KEY_ID = RAZORPAY_API_KEY
 export RAZOR_KEY_SECRET = RAZORPAY_API_SECRET
@@ -46,31 +46,27 @@ export SECRET_KEY = GENERATE_A_DJANGO_SECRET_KEY
 ``` 
 
 3. Run the migrations:
-
-```
+```bash
 python manage.py makemigrations
 ```
 
 4. Migrate the changes to the DB:
-
-```
+```bash
 python manage.py migrate
 ```
 
 5. Create a superuser for the project
-```
+```bash
 python manage.py createsuperuser
 ```
 
 6. Start the celery:
-
-```
+```bash
 celery -A fms worker --pool=solo -l info 
 ```
 
 7. Start the django server [use ngnix/gunicorn for production]
-
-```
+```bash
 python manage.py runserver
 ```
 
@@ -80,3 +76,12 @@ python manage.py runserver
 
 ## Demo and Screenshots
 
+### Airline App Demo
+![Airline Demo](demo/airline-app-demo.mp4)
+
+
+### User App Demo
+![User Demo](demo/images/user-app-demo.mp4)
+
+
+Telegram : <a href="https://t.me/hitkolkata" title="Telegram ID">@hitkolkata</a>

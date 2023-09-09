@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import *
-from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, Http404, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from .serializers import FlightBookingSerializer
 from django.contrib import messages
@@ -157,7 +157,7 @@ def flight_deatils(request, flight_id):
             try:
                 del request.session['seat_class']
             except Exception as err:
-                print(err)
+                logger.error(err)
             if request.method == 'POST' and 'seat_class' in request.POST and request.POST['seat_class'] != '':
                 response = HttpResponseRedirect(f"/flight/{flight_id}/book/?seat_class={request.POST['seat_class']}")   
                 request.session['seat_class'] = request.POST['seat_class']     
@@ -276,9 +276,15 @@ def payments(request):
 def invoice_payment(request, payment_id):
     try:
         if Payment.objects.filter(payment_id=payment_id, profile=request.user.userprofile).exists():
-            payment = Payment.objects.get(payment_id=payment_id, profile=request.user.userprofile)
+            payment = Payment.objects.filter(payment_id=payment_id, profile=request.user.userprofile)
+
+            if payment.count() > 1:
+                pymnt = payment[len(payment) - 1 ] # latest
+            else:
+                pymnt = payment[0]
+
             context = {
-                "payment" : payment,
+                "payment" : pymnt,
                 "page_title" : "Payment Detail | Luua",
                 "tab_id" : "payments"
             }
@@ -367,18 +373,19 @@ def booking_details(request, booking_id):
             }
             return render(request, "booking/tickets/booking-details.html", context)
         logger.info(msg="Booking doesn't belong to user")
-        return Http404()
+        return Http404("Booking not found")
     except Exception as err:
         logger.error(err)
+        return HttpResponseBadRequest("Booking not confirmed")
 
 @login_required(login_url="/login")
 def cancel_flight(request, booking_id):
-    return
+    return Http404("feature not found")
 
 
 @login_required(login_url="/login")
 def edit_booking(request, booking_id):
-    return
+    return Http404("feature not found")
 
 
 @login_required(login_url="/login")
