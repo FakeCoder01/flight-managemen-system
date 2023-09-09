@@ -77,9 +77,11 @@ python manage.py runserver
 ## Demo and Screenshots
 
 ### Airline App Demo
-
+https://github.com/FakeCoder01/flight-managemen-system/assets/97719684/a59e0d13-acef-4b96-b8a4-4321f7cdbfed
 
 ### User App Demo
+https://github.com/FakeCoder01/flight-managemen-system/assets/97719684/dbab1126-2f6d-4303-8d27-9263fc7dffd8
+
 
 
 Telegram : <a href="https://t.me/hitkolkata" title="Telegram ID">@hitkolkata</a>
